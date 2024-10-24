@@ -31,7 +31,7 @@ async def get_government_employees():
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     if not pessoas:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Nenhum servidor disponível")
-    return {"message": "lista de servidores na base", "data": pessoas}
+    return {"message": "Lista de servidores na base", "data": pessoas}
 
 @application_router.get("/servidores/cadastrados")
 async def get_validated_government_employees():
@@ -41,7 +41,7 @@ async def get_validated_government_employees():
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     if not pessoas:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Nenhum servidor validado")
-    return {"message": "lista de servidores cadastrados pelo site", "data": pessoas}
+    return {"message": "Lista de servidores cadastrados pelo site", "data": pessoas}
 
 @application_router.get("/servidores/{cpf}")
 async def get_government_employee(cpf: str):
@@ -50,8 +50,8 @@ async def get_government_employee(cpf: str):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     if not pessoa:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pessoa não encontrada")
-    return {"message": "servidor encontrado", "data": pessoa}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Servidor não encontrado")
+    return {"message": "Servidor encontrado", "data": pessoa}
 
 @application_router.post("/servidores/{cpf}/validar")
 async def validate_government_employee(cpf: str, force: bool = False, observation: str = 'terceirizado'):
@@ -59,12 +59,12 @@ async def validate_government_employee(cpf: str, force: bool = False, observatio
         err, sts = PessoaRepository().validate_pessoa(cpf, force, observation)
         if not err and not sts:
             pessoa = PessoaRepository().get_pessoa(cpf)        
-            return {"message": "servidor validado com sucesso", "data": pessoa}
-        elif err and sts:
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=sts)
+            return {"message": "Servidor validado com sucesso", "data": pessoa}
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pessoa não encontrada")
+    if err and sts:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=sts)
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Servidor não encontrado")
 
 @application_router.post("/sortear")
 async def draw_government_employee():
@@ -76,7 +76,7 @@ async def draw_government_employee():
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     if not pessoa_cpf:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Nenhum servidor disponível para sorteio")
-    return {"message": "servidor sorteado", "data": pessoa}
+    return {"message": "Servidor sorteado", "data": pessoa}
 
 @application_router.get("/sorteados")
 async def get_drawn_government_employees():
@@ -86,7 +86,7 @@ async def get_drawn_government_employees():
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     if not pessoas:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Nenhum servidor sorteado")
-    return {"message": "lista de servidores sorteados", "data": pessoas}
+    return {"message": "Lista de servidores sorteados", "data": pessoas}
 
 @application_router.post("/limpar/validados")
 async def clean_validated_government_employees():

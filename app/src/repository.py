@@ -28,7 +28,7 @@ class PessoaRepository:
                     pessoa.dataValidacao = dt.now()
                     session.commit()
                     return False
-                sts = "Pessoa já validada"
+                sts = "Servidor já validado"
             elif force:
                 new_pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
                 session.add(new_pessoa)
