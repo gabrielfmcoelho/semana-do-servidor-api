@@ -29,14 +29,6 @@ app = FastAPI(
 
 print(settings.allowed_origins)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.allowed_origins,
-    allow_credentials=settings.allowed_credentials,
-    allow_methods=settings.allowed_methods,
-    allow_headers=settings.allowed_headers,
-)
-
 app.include_router(application_router)
 
 @app.get('/api', include_in_schema=False)
@@ -60,3 +52,11 @@ async def root_post():
             raise e
         finally:
             logger.info('Successfully POST /ping')
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=settings.allowed_credentials,
+    allow_methods=settings.allowed_methods,
+    allow_headers=settings.allowed_headers,
+)
