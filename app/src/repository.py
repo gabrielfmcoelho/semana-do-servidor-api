@@ -19,7 +19,7 @@ class PessoaRepository:
         with self.db_interface.get_session() as session:
             return session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
         
-    def validate_pessoa(self, cpf: str, force: bool = False):
+    def validate_pessoa(self, cpf: str, force: bool = False, observation: str = ''):
         with self.db_interface.get_session() as session:
             pessoa = session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
             if pessoa:
@@ -27,7 +27,7 @@ class PessoaRepository:
                 session.commit()
                 return True
             elif force:
-                pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0)
+                pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
                 session.add(pessoa)
                 session.commit()
                 return True
@@ -38,9 +38,7 @@ class PessoaRepository:
             pessoa = session.query(Pessoa).filter(Pessoa.dataValidacao != None, Pessoa.sorteado == 0, Pessoa.duplicado == 0).order_by(func.random()).first()
             if pessoa:
                 pessoa.sorteado = 1
-                print(pessoa.nome)
                 pessoa_cpf = pessoa.cpf
-                print(pessoa_cpf)
                 session.commit()
                 return pessoa_cpf
             return None
