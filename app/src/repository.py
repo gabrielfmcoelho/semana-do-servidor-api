@@ -67,3 +67,8 @@ class PessoaRepository:
         with self.db_interface.get_session() as session:
             session.query(Pessoa).update({Pessoa.sorteado: 0})
             session.commit()
+
+    def clean_external_pessoas(self):
+        with self.db_interface.get_session() as session:
+            session.query(Pessoa).filter(Pessoa.observacao != None).delete()
+            session.commit()

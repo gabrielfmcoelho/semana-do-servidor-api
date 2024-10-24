@@ -90,10 +90,24 @@ async def get_drawn_government_employees():
 
 @application_router.post("/limpar/validados")
 async def clean_validated_government_employees():
-    PessoaRepository().clean_validated()
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    try:
+        PessoaRepository().clean_validated()
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 @application_router.post("/limpar/sorteio")
 async def clean_drawn_government_employees():
-    PessoaRepository().clean_drawn()
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    try:
+        PessoaRepository().clean_drawn()
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+@application_router.post("/limpar/pessoas-externas")
+async def clean_external_government_employees():
+    try:
+        PessoaRepository().clean_external_pessoas()
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
