@@ -33,7 +33,7 @@ async def get_government_employees():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Nenhum servidor disponível")
     return {"message": "Lista de servidores na base", "data": pessoas}
 
-@application_router.get("/servidores/cadastrados")
+@application_router.get("/servidores/validados")
 async def get_validated_government_employees():
     try:
         pessoas = PessoaRepository().get_validated_pessoas()
