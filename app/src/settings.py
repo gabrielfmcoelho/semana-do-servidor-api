@@ -17,7 +17,7 @@ class AppSettings(BaseSettings):
     LOCALE: str = 'pt_BR.UTF-8'
     PROJECT_NAME: str = "API"
     MODE: str = 'dev'
-    APP_PORT: int = 8000
+    PORT: int = 8000
     VERSION: str = '0.1.0'
     CORS_ALLOW_ORIGINS: str = '*'
     CORS_ALLOW_CREDENTIALS: bool = True
