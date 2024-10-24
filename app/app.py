@@ -24,6 +24,7 @@ app = FastAPI(
     openapi_tags=settings.generate_openapi_tags(),
     docs_url=settings.docs_url,
     redoc_url=settings.redoc_url,
+    openapi_url=settings.openapi_url,
 )
 
 app.add_middleware(

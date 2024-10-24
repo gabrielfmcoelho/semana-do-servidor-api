@@ -26,6 +26,7 @@ class AppSettings(BaseSettings):
     SECURITY_TOKEN: str = 'secret'
     DEFAULT_PROXY_URL: str = ''
     FORCE_VALIDATION: bool = False
+    OPEN_API_URL: str = '/openapi.json'
 
     def __init__(self, **data):
         super().__init__(**data)
