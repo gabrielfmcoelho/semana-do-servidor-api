@@ -28,6 +28,9 @@ app = FastAPI(
 )
 
 print(settings.allowed_origins)
+print(settings.allowed_credentials)
+print(settings.allowed_methods)
+print(settings.allowed_headers)
 
 app.include_router(application_router)
 
@@ -56,7 +59,7 @@ async def root_post():
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['*'],
-    allow_credentials=settings.allowed_credentials,
-    allow_methods=settings.allowed_methods,
-    allow_headers=settings.allowed_headers,
+    allow_credentials=False,
+    allow_methods=['*'],
+    allow_headers=['*'],
 )

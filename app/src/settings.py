@@ -21,7 +21,7 @@ class AppSettings(BaseSettings):
     VERSION: str = '0.1.0'
     CORS_ALLOW_ORIGINS: str = '*'
     CORS_ALLOW_CREDENTIALS: bool = True
-    CORS_ALLOW_METHODS: str = 'GET, POST, PUT, DELETE, OPTIONS'
+    CORS_ALLOW_METHODS: str = '*'
     CORS_ALLOW_HEADERS: str = '*'
     SECURITY_TOKEN: str = 'secret'
     DEFAULT_PROXY_URL: str = ''
