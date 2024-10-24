@@ -56,9 +56,12 @@ async def get_government_employee(cpf: str):
 @application_router.post("/servidores/{cpf}/validar")
 async def validate_government_employee(cpf: str, force: bool = False, observation: str = 'terceirizado'):
     try:
-        if PessoaRepository().validate_pessoa(cpf, force, observation):
-            pessoa = PessoaRepository().get_pessoa(cpf)
+        err, sts = PessoaRepository().validate_pessoa(cpf, force, observation)
+        if not err and not sts:
+            pessoa = PessoaRepository().get_pessoa(cpf)        
             return {"message": "servidor validado com sucesso", "data": pessoa}
+        elif err and sts:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=sts)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pessoa não encontrada")

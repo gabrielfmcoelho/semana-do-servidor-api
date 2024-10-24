@@ -22,16 +22,19 @@ class PessoaRepository:
     def validate_pessoa(self, cpf: str, force: bool = False, observation: str = ''):
         with self.db_interface.get_session() as session:
             pessoa = session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
+            sts = None
             if pessoa:
-                pessoa.dataValidacao = dt.now()
-                session.commit()
-                return True
+                if not pessoa.dataValidacao:
+                    pessoa.dataValidacao = dt.now()
+                    session.commit()
+                    return True
+                sts = "Pessoa já validada"
             elif force:
-                pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
-                session.add(pessoa)
+                new_pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
+                session.add(new_pessoa)
                 session.commit()
                 return True
-            return False
+            return False, sts
         
     def draw_random_pessoa(self):
         with self.db_interface.get_session() as session:
