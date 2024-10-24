@@ -2,6 +2,7 @@ from .database import get_database_interface
 from sqlalchemy.sql.expression import func
 from datetime import datetime as dt
 from .schemas import Pessoa
+from hashlib import sha256
 
 class PessoaRepository:
     def __init__(self):
@@ -30,7 +31,14 @@ class PessoaRepository:
                     return False, sts
                 sts = "Servidor já validado"
             elif force:
-                new_pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
+                new_pessoa = Pessoa(
+                    cpf=cpf,
+                    dataValidacao=dt.now(),
+                    sorteado=0,
+                    duplicado=0,
+                    observacao=observation,
+                    matricula=sha256(cpf.encode()).hexdigest()
+                )
                 session.add(new_pessoa)
                 session.commit()
                 return False, sts
