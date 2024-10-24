@@ -27,14 +27,14 @@ class PessoaRepository:
                 if not pessoa.dataValidacao:
                     pessoa.dataValidacao = dt.now()
                     session.commit()
-                    return True
+                    return False
                 sts = "Pessoa já validada"
             elif force:
                 new_pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
                 session.add(new_pessoa)
                 session.commit()
-                return True
-            return False, sts
+                return False
+            return True, sts
         
     def draw_random_pessoa(self):
         with self.db_interface.get_session() as session:
