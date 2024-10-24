@@ -42,4 +42,4 @@ ENV DB_NAME=${DB_NAME}
 EXPOSE ${PORT}
 
 # Command to run the application
-CMD ["sh", "-c", "uvicorn api-intermediária:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["sh", "-c", "uvicorn app.app:app --host 0.0.0.0 --port ${PORT}"]
