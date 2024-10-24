@@ -24,16 +24,16 @@ class PessoaRepository:
             pessoa = session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
             sts = None
             if pessoa:
-                if pessoa.dataValidacao != None:
+                if not pessoa.dataValidacao:
                     pessoa.dataValidacao = dt.now()
                     session.commit()
-                    return False
+                    return False, sts
                 sts = "Servidor já validado"
             elif force:
                 new_pessoa = Pessoa(cpf=cpf, dataValidacao=dt.now(), sorteado=0, duplicado=0, observacao=observation)
                 session.add(new_pessoa)
                 session.commit()
-                return False
+                return False, sts
             return True, sts
         
     def draw_random_pessoa(self):
