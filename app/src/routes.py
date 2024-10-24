@@ -57,7 +57,7 @@ async def get_government_employee(cpf: str):
 async def validate_government_employee(cpf: str, force: bool = False, observation: str = 'terceirizado'):
     try:
         err, sts = PessoaRepository().validate_pessoa(cpf, force, observation)
-        if not err and not sts:
+        if not err:
             pessoa = PessoaRepository().get_pessoa(cpf)        
             return {"message": "Servidor validado com sucesso", "data": pessoa}
     except Exception as e:

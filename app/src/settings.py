@@ -1,5 +1,6 @@
 from typing import List
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field, field_validator, validator
 from datetime import datetime as dt
 from hashlib import sha256
 import os
@@ -19,16 +20,23 @@ class AppSettings(BaseSettings):
     MODE: str = 'dev'
     PORT: int = 8000
     VERSION: str = '0.1.0'
-    CORS_ALLOW_ORIGINS: list[str] = ['*']
+    CORS_ALLOW_ORIGINS: list[str]|str = Field(default=['*'])
     CORS_ALLOW_CREDENTIALS: bool = True
-    CORS_ALLOW_METHODS: list[str] = ['*']
-    CORS_ALLOW_HEADERS: list[str] = ['*']
+    CORS_ALLOW_METHODS: list[str]|str = Field(default=['*'])
+    CORS_ALLOW_HEADERS: list[str]|str = Field(default=['*'])
     SECURITY_TOKEN: str = 'secret'
     DEFAULT_PROXY_URL: str = ''
     OPEN_API_URL: str = '/openapi.json'
 
     def __init__(self, **data):
         super().__init__(**data)
+
+    @validator('CORS_ALLOW_ORIGINS', 'CORS_ALLOW_METHODS', 'CORS_ALLOW_HEADERS', pre=True)
+    def split_cors_values(cls, v):
+        if isinstance(v, str):
+            print(v)
+            return [item.strip() for item in v.split(',')]
+        return v
 
     @property
     def mode(self):
