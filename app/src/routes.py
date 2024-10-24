@@ -54,9 +54,9 @@ async def get_government_employee(cpf: str):
     return {"message": "Servidor encontrado", "data": pessoa}
 
 @application_router.post("/servidores/{cpf}/validar")
-async def validate_government_employee(cpf: str, force: bool = False, observation: str = 'terceirizado'):
+async def validate_government_employee(cpf: str, force: bool = False, observation: str = 'terceirizado', name: str = ''):
     try:
-        err, sts = PessoaRepository().validate_pessoa(cpf, force, observation)
+        err, sts = PessoaRepository().validate_pessoa(cpf, force, observation, name)
         if not err:
             pessoa = PessoaRepository().get_pessoa(cpf)        
             return {"message": "Servidor validado com sucesso", "data": pessoa}

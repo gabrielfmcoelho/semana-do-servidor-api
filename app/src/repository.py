@@ -20,7 +20,7 @@ class PessoaRepository:
         with self.db_interface.get_session() as session:
             return session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
         
-    def validate_pessoa(self, cpf: str, force: bool = False, observation: str = ''):
+    def validate_pessoa(self, cpf: str, force: bool = False, observation: str = '', name: str = ''):
         with self.db_interface.get_session() as session:
             pessoa = session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
             sts = None
@@ -32,6 +32,7 @@ class PessoaRepository:
                 sts = "Servidor já validado"
             elif force:
                 new_pessoa = Pessoa(
+                    nome=name,
                     cpf=cpf,
                     dataValidacao=dt.now(),
                     sorteado=0,
