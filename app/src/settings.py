@@ -25,7 +25,6 @@ class AppSettings(BaseSettings):
     CORS_ALLOW_HEADERS: str = '*'
     SECURITY_TOKEN: str = 'secret'
     DEFAULT_PROXY_URL: str = ''
-    FORCE_VALIDATION: bool = False
     OPEN_API_URL: str = '/openapi.json'
 
     def __init__(self, **data):
@@ -97,10 +96,6 @@ class AppSettings(BaseSettings):
     @property
     def default_proxy_url(self):
         return self.DEFAULT_PROXY_URL
-    
-    @property
-    def force_validation(self):
-        return self.FORCE_VALIDATION
     
     @property
     def openapi_url(self):
