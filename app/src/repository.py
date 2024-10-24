@@ -24,7 +24,7 @@ class PessoaRepository:
             pessoa = session.query(Pessoa).filter(Pessoa.cpf == cpf, Pessoa.duplicado == 0).first()
             sts = None
             if pessoa:
-                if not pessoa.dataValidacao:
+                if pessoa.dataValidacao != None:
                     pessoa.dataValidacao = dt.now()
                     session.commit()
                     return False
