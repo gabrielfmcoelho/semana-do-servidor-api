@@ -19,10 +19,10 @@ class AppSettings(BaseSettings):
     MODE: str = 'dev'
     PORT: int = 8000
     VERSION: str = '0.1.0'
-    CORS_ALLOW_ORIGINS: str = '*'
+    CORS_ALLOW_ORIGINS: list[str] = ['*']
     CORS_ALLOW_CREDENTIALS: bool = True
-    CORS_ALLOW_METHODS: str = '*'
-    CORS_ALLOW_HEADERS: str = '*'
+    CORS_ALLOW_METHODS: list[str] = ['*']
+    CORS_ALLOW_HEADERS: list[str] = ['*']
     SECURITY_TOKEN: str = 'secret'
     DEFAULT_PROXY_URL: str = ''
     OPEN_API_URL: str = '/openapi.json'
@@ -74,7 +74,7 @@ class AppSettings(BaseSettings):
 
     @property
     def allowed_origins(self):
-        return self.CORS_ALLOW_ORIGINS.split(',')
+        return self.CORS_ALLOW_ORIGINS
 
     @property
     def allowed_credentials(self):
@@ -82,11 +82,11 @@ class AppSettings(BaseSettings):
 
     @property
     def allowed_methods(self):
-        return self.CORS_ALLOW_METHODS.split(',')
+        return self.CORS_ALLOW_METHODS
 
     @property
     def allowed_headers(self):
-        return self.CORS_ALLOW_HEADERS.split(',')
+        return self.CORS_ALLOW_HEADERS
     
     @property
     def security_token(self):

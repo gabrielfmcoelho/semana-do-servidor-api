@@ -58,8 +58,8 @@ async def root_post():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'],
-    allow_credentials=True,
-    allow_methods=['*'],
-    allow_headers=['*'],
+    allow_origins=settings.allowed_origins,
+    allow_credentials=settings.allowed_credentials,
+    allow_methods=settings.allowed_methods,
+    allow_headers=settings.allowed_headers,
 )
