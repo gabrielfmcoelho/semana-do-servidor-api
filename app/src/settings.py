@@ -102,6 +102,10 @@ class AppSettings(BaseSettings):
     def force_validation(self):
         return self.FORCE_VALIDATION
     
+    @property
+    def openapi_url(self):
+        return self.OPEN_API_URL
+    
 app_settings = AppSettings()
 
 class LoggerSettings(BaseSettings):
